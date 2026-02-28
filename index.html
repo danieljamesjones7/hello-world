@@ -17,14 +17,14 @@
 
     header {
       text-align: center;
-      padding: 120px 20px 80px;
+      padding: 100px 20px 70px;
       background: radial-gradient(ellipse at center, #1a1408 0%, #080808 70%);
       border-bottom: 1px solid #2a2417;
     }
 
     header h1 {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+      font-size: clamp(2rem, 5.5vw, 4.8rem);
       font-weight: 400;
       letter-spacing: 0.04em;
       color: #c9a96e;
@@ -43,128 +43,214 @@
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 3px;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
       max-width: 1700px;
       margin: 0 auto;
-      padding: 60px 20px;
+      padding: 50px 20px;
     }
 
+    /* ── Card ── */
     .painting-card {
+      background: #0d0d0d;
+      display: flex;
+      flex-direction: column;
+      cursor: default;
+    }
+
+    /* ── Image wrapper — fixed height, painting fully visible ── */
+    .painting-img-wrap {
       position: relative;
       overflow: hidden;
-      cursor: default;
-      background: #111;
-      aspect-ratio: 4/3;
+      background: #060606;
+      height: 300px;
     }
 
     .painting-card img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      transition: transform 0.7s ease, filter 0.7s ease;
+      object-fit: contain; /* full painting, no cropping */
+      transition: filter 0.7s ease;
       display: block;
     }
 
     .painting-card:hover img {
-      transform: scale(1.06);
-      filter: brightness(0.2);
+      filter: brightness(0.18);
     }
 
+    /* ── Static info strip below image ── */
     .painting-info {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 28px 28px 24px;
-      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
-      transition: opacity 0.5s ease;
+      padding: 14px 18px 12px;
+      background: #111;
+      border-top: 1px solid #1c1c1c;
     }
 
-    .painting-card:hover .painting-info {
-      opacity: 0;
-      pointer-events: none;
+    .number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: #c9a96e;
+      opacity: 0.35;
+      line-height: 1;
+      margin-bottom: 4px;
     }
 
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .artist-year {
+      font-size: 0.85rem;
+      color: #c9a96e;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Hover overlay — sits over the image only ── */
     .painting-overlay {
       position: absolute;
       inset: 0;
-      padding: 32px;
+      padding: 28px 26px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       opacity: 0;
       transition: opacity 0.5s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #c9a96e33 transparent;
     }
 
     .painting-card:hover .painting-overlay {
       opacity: 1;
     }
 
-    .number {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      color: #c9a96e;
-      opacity: 0.35;
-      line-height: 1;
-      margin-bottom: 8px;
-    }
-
-    .title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      color: #fff;
-      margin-bottom: 3px;
-      line-height: 1.3;
-    }
-
-    .artist-year {
-      font-size: 0.88rem;
-      color: #c9a96e;
-      font-style: italic;
-      letter-spacing: 0.02em;
-    }
-
     .overlay-number {
       font-family: 'Playfair Display', serif;
-      font-size: 2.4rem;
+      font-size: 2rem;
       color: #c9a96e;
       opacity: 0.4;
       line-height: 1;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
     }
 
     .overlay-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
+      font-size: 1.25rem;
       color: #c9a96e;
       margin-bottom: 4px;
       line-height: 1.3;
+      flex-shrink: 0;
     }
 
     .overlay-artist {
-      font-size: 0.83rem;
+      font-size: 0.82rem;
       color: #9a8e7a;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
       font-style: italic;
       letter-spacing: 0.03em;
+      flex-shrink: 0;
     }
 
     .description {
-      font-size: 0.97rem;
+      font-size: 0.96rem;
       color: #ddd8cc;
-      line-height: 1.75;
+      line-height: 1.78;
       font-style: italic;
     }
 
+    /* ── Mobile-only description (always visible) ── */
+    .painting-description-mobile {
+      display: none;
+      padding: 12px 18px 20px;
+      font-size: 1rem;
+      color: #b0a898;
+      line-height: 1.75;
+      font-style: italic;
+      background: #0d0d0d;
+      border-top: 1px solid #1c1c1c;
+    }
+
+    /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 70px 20px;
+      padding: 80px 20px 90px;
+      border-top: 1px solid #1a1810;
+    }
+
+    .footer-hint {
       color: #3a3530;
       font-style: italic;
       font-size: 1rem;
       letter-spacing: 0.02em;
-      border-top: 1px solid #1a1810;
+      margin-bottom: 48px;
+    }
+
+    .footer-wisdom {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: #c9a96e;
+      font-style: italic;
+      max-width: 660px;
+      margin: 0 auto 20px;
+      line-height: 1.75;
+      letter-spacing: 0.01em;
+    }
+
+    .footer-wisdom-action {
+      font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+      color: #5a5248;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 700px) {
+      header {
+        padding: 60px 16px 40px;
+      }
+
+      .gallery {
+        grid-template-columns: 1fr;
+        padding: 24px 12px;
+        gap: 32px;
+      }
+
+      .painting-img-wrap {
+        height: auto;
+        max-height: none;
+      }
+
+      .painting-card img {
+        height: auto;
+        max-height: 85vw;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      /* Disable hover darkening on touch devices */
+      .painting-card:hover img {
+        filter: none;
+      }
+
+      /* Hide hover overlay on mobile */
+      .painting-overlay {
+        display: none;
+      }
+
+      /* Always show description below on mobile */
+      .painting-description-mobile {
+        display: block;
+      }
+
+      .footer-wisdom {
+        padding: 0 8px;
+      }
     }
   </style>
 </head>
@@ -178,7 +264,9 @@
 <div class="gallery" id="gallery"></div>
 
 <footer>
-  Hover each painting to discover its psychological power &mdash; a meditation on beauty, time, and the infinite.
+  <p class="footer-hint">Hover each painting to discover its psychological power &mdash; a meditation on beauty, time, and the infinite.</p>
+  <p class="footer-wisdom">"Pick one painting from this page. Set a timer for two minutes. Look at nothing else — no title, no description. Simply let it be present with you."</p>
+  <p class="footer-wisdom-action">What you feel in that silence is already a form of self-knowledge.</p>
 </footer>
 
 <script>
@@ -400,18 +488,22 @@ paintings.forEach((p, i) => {
   const card = document.createElement('div');
   card.className = 'painting-card';
   card.innerHTML = `
-    <img src="${p.img}" alt="${p.title}" loading="lazy">
+    <div class="painting-img-wrap">
+      <img src="${p.img}" alt="${p.title}" loading="lazy" referrerpolicy="no-referrer"
+           onerror="this.style.opacity='0.3'; this.style.filter='grayscale(1)'">
+      <div class="painting-overlay">
+        <div class="overlay-number">${String(i + 1).padStart(2, '0')}</div>
+        <div class="overlay-title">${p.title}</div>
+        <div class="overlay-artist">${p.artist} &middot; ${p.year}</div>
+        <div class="description">${p.psyche}</div>
+      </div>
+    </div>
     <div class="painting-info">
       <div class="number">${String(i + 1).padStart(2, '0')}</div>
       <div class="title">${p.title}</div>
       <div class="artist-year">${p.artist}, ${p.year}</div>
     </div>
-    <div class="painting-overlay">
-      <div class="overlay-number">${String(i + 1).padStart(2, '0')}</div>
-      <div class="overlay-title">${p.title}</div>
-      <div class="overlay-artist">${p.artist} &middot; ${p.year}</div>
-      <div class="description">${p.psyche}</div>
-    </div>
+    <div class="painting-description-mobile">${p.psyche}</div>
   `;
   gallery.appendChild(card);
 });
