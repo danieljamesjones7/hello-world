@@ -1,125 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Art Generator</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30 Most Beautiful Paintings of All Time</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #080808;
+      color: #e8e0d0;
+      font-family: 'Cormorant Garamond', serif;
+      line-height: 1.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 120px 20px 80px;
+      background: radial-gradient(ellipse at center, #1a1408 0%, #080808 70%);
+      border-bottom: 1px solid #2a2417;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: #c9a96e;
+      line-height: 1.2;
+      margin-bottom: 24px;
+    }
+
+    header p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-style: italic;
+      color: #7a7060;
+      max-width: 560px;
+      margin: 0 auto;
+      letter-spacing: 0.02em;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 3px;
+      max-width: 1700px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .painting-card {
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      background: #111;
+      aspect-ratio: 4/3;
+    }
+
+    .painting-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s ease, filter 0.7s ease;
+      display: block;
+    }
+
+    .painting-card:hover img {
+      transform: scale(1.06);
+      filter: brightness(0.2);
+    }
+
+    .painting-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 28px 28px 24px;
+      background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+      transition: opacity 0.5s ease;
+    }
+
+    .painting-card:hover .painting-info {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .painting-overlay {
+      position: absolute;
+      inset: 0;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .painting-card:hover .painting-overlay {
+      opacity: 1;
+    }
+
+    .number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: #c9a96e;
+      opacity: 0.35;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: #fff;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+
+    .artist-year {
+      font-size: 0.88rem;
+      color: #c9a96e;
+      font-style: italic;
+      letter-spacing: 0.02em;
+    }
+
+    .overlay-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: #c9a96e;
+      opacity: 0.4;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .overlay-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: #c9a96e;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .overlay-artist {
+      font-size: 0.83rem;
+      color: #9a8e7a;
+      margin-bottom: 18px;
+      font-style: italic;
+      letter-spacing: 0.03em;
+    }
+
+    .description {
+      font-size: 0.97rem;
+      color: #ddd8cc;
+      line-height: 1.75;
+      font-style: italic;
+    }
+
+    footer {
+      text-align: center;
+      padding: 70px 20px;
+      color: #3a3530;
+      font-style: italic;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+      border-top: 1px solid #1a1810;
+    }
+  </style>
 </head>
 <body>
-  <div class="app">
-    <header class="header">
-      <h1>Art Generator</h1>
-      <p class="subtitle">Create generative artwork in seconds</p>
-    </header>
 
-    <main class="main">
-      <div class="canvas-container">
-        <canvas id="artCanvas" width="800" height="600"></canvas>
-        <div class="canvas-overlay" id="canvasOverlay">
-          <span>Click "Generate" to create art</span>
-        </div>
-      </div>
+<header>
+  <h1>30 Most Beautiful<br>Paintings of All Time</h1>
+  <p>How great art transforms, disturbs, and illuminates the human psyche</p>
+</header>
 
-      <aside class="controls">
-        <section class="control-section">
-          <h2>Style</h2>
-          <div class="style-grid" id="styleGrid">
-            <button class="style-btn active" data-style="geometric">
-              <span class="style-icon">◈</span>
-              <span>Geometric</span>
-            </button>
-            <button class="style-btn" data-style="particles">
-              <span class="style-icon">✦</span>
-              <span>Particles</span>
-            </button>
-            <button class="style-btn" data-style="waves">
-              <span class="style-icon">∿</span>
-              <span>Waves</span>
-            </button>
-            <button class="style-btn" data-style="fractal">
-              <span class="style-icon">❋</span>
-              <span>Fractal</span>
-            </button>
-            <button class="style-btn" data-style="noise">
-              <span class="style-icon">▦</span>
-              <span>Noise Field</span>
-            </button>
-            <button class="style-btn" data-style="splatter">
-              <span class="style-icon">✿</span>
-              <span>Splatter</span>
-            </button>
-          </div>
-        </section>
+<div class="gallery" id="gallery"></div>
 
-        <section class="control-section">
-          <h2>Palette</h2>
-          <div class="palette-grid" id="paletteGrid">
-            <button class="palette-btn active" data-palette="cosmic" title="Cosmic">
-              <span class="swatch" style="background: linear-gradient(135deg, #0d0d2b, #6a0dad, #ff6ec7, #ffd700)"></span>
-              <span>Cosmic</span>
-            </button>
-            <button class="palette-btn" data-palette="ocean" title="Ocean">
-              <span class="swatch" style="background: linear-gradient(135deg, #001f3f, #0074d9, #7fdbff, #01ff70)"></span>
-              <span>Ocean</span>
-            </button>
-            <button class="palette-btn" data-palette="fire" title="Fire">
-              <span class="swatch" style="background: linear-gradient(135deg, #1a0000, #ff4500, #ff8c00, #ffd700)"></span>
-              <span>Fire</span>
-            </button>
-            <button class="palette-btn" data-palette="forest" title="Forest">
-              <span class="swatch" style="background: linear-gradient(135deg, #0a1628, #2d6a4f, #52b788, #d8f3dc)"></span>
-              <span>Forest</span>
-            </button>
-            <button class="palette-btn" data-palette="monochrome" title="Mono">
-              <span class="swatch" style="background: linear-gradient(135deg, #000, #444, #999, #fff)"></span>
-              <span>Mono</span>
-            </button>
-            <button class="palette-btn" data-palette="neon" title="Neon">
-              <span class="swatch" style="background: linear-gradient(135deg, #0a0a0a, #ff00ff, #00ffff, #ff0099)"></span>
-              <span>Neon</span>
-            </button>
-          </div>
-        </section>
+<footer>
+  Hover each painting to discover its psychological power &mdash; a meditation on beauty, time, and the infinite.
+</footer>
 
-        <section class="control-section">
-          <h2>Parameters</h2>
-          <div class="param-row">
-            <label for="densitySlider">Density</label>
-            <input type="range" id="densitySlider" min="1" max="10" value="5" />
-            <span class="param-value" id="densityValue">5</span>
-          </div>
-          <div class="param-row">
-            <label for="complexitySlider">Complexity</label>
-            <input type="range" id="complexitySlider" min="1" max="10" value="5" />
-            <span class="param-value" id="complexityValue">5</span>
-          </div>
-          <div class="param-row">
-            <label for="speedSlider">Animation</label>
-            <input type="range" id="speedSlider" min="0" max="10" value="3" />
-            <span class="param-value" id="speedValue">3</span>
-          </div>
-          <div class="param-row checkbox-row">
-            <label for="symmetryCheck">Symmetry</label>
-            <input type="checkbox" id="symmetryCheck" />
-          </div>
-        </section>
+<script>
+const paintings = [
+  {
+    title: "The Starry Night",
+    artist: "Vincent van Gogh",
+    year: "1889",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+    psyche: "Its swirling vortices bypass rational thought and speak directly to the nervous system. Viewers report a sensation of simultaneously dissolving into and being held by the cosmos — a feeling of oceanic oneness that psychologists associate with the dissolution of ego boundaries."
+  },
+  {
+    title: "Mona Lisa",
+    artist: "Leonardo da Vinci",
+    year: "1503–1519",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg",
+    psyche: "Her ambiguous smile activates the amygdala and mirror neurons simultaneously, triggering a compulsive need to decode her inner state. She induces a peculiar intimacy — the feeling of being truly seen — followed by the unsettling awareness that she will never fully reveal herself."
+  },
+  {
+    title: "The Birth of Venus",
+    artist: "Sandro Botticelli",
+    year: "c. 1484–1486",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg/1280px-Sandro_Botticelli_-_La_nascita_di_Venere_-_Google_Art_Project_-_edited.jpg",
+    psyche: "The painting enacts the myth of beauty's arrival into consciousness. Viewers experience a yearning that has no clear object — a longing for ideal beauty the real world cannot satisfy, which philosophers from Plato to Schopenhauer identified as the ache of aesthetic experience itself."
+  },
+  {
+    title: "Girl with a Pearl Earring",
+    artist: "Johannes Vermeer",
+    year: "1665",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/1665_Girl_with_a_Pearl_Earring.jpg/800px-1665_Girl_with_a_Pearl_Earring.jpg",
+    psyche: "The half-turn and parted lips suspend a moment of impossible intimacy — as if you have just called her name. The tension of that unrealized moment lodges in the limbic system as anticipatory longing, making the viewer perpetually lean forward, forever waiting for her to speak."
+  },
+  {
+    title: "The Creation of Adam",
+    artist: "Michelangelo",
+    year: "1512",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg/1280px-Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg",
+    psyche: "The gap between fingertips is one of art history's most psychologically charged spaces. It activates the viewer's own sense of being almost-touched, almost-completed. The painting confronts us with the deepest existential question: what animates us, and what remains forever just beyond reach?"
+  },
+  {
+    title: "Water Lilies",
+    artist: "Claude Monet",
+    year: "1906",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg/1280px-Claude_Monet_-_Water_Lilies_-_1906%2C_Ryerson.jpg",
+    psyche: "Neuroscientists have found that Monet's late style mimics how the brain processes color before the prefrontal cortex sharpens it into objects. Viewing it induces a meditative state, slowing brainwaves and dropping the viewer into what contemplatives call bare attention — pure perception before thought."
+  },
+  {
+    title: "The Persistence of Memory",
+    artist: "Salvador Dalí",
+    year: "1931",
+    img: "https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
+    psyche: "Dalí weaponizes familiarity — clocks, a landscape, a shelf — and bends them past reason. The result is a creeping uncanniness that destabilizes the viewer's relationship with time itself. It induces what Freud called the unheimlich: the terrifying discovery that the familiar harbors the alien."
+  },
+  {
+    title: "Guernica",
+    artist: "Pablo Picasso",
+    year: "1937",
+    img: "https://upload.wikimedia.org/wikipedia/en/7/74/PicassoGuernica.jpg",
+    psyche: "Its fractured geometry refuses to aestheticize suffering. The viewer cannot find beauty to retreat into, only the raw geometry of agony. It produces moral vertigo — a collapse of the comfortable distance between art and atrocity, forcing the psyche to metabolize horror it would otherwise dissociate from."
+  },
+  {
+    title: "The Kiss",
+    artist: "Gustav Klimt",
+    year: "1907–1908",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/800px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg",
+    psyche: "The gold dissolves boundaries — between two people, and between painting and viewer. Klimt triggers a primal memory of merger: the infant at the breast, the lover's embrace. It speaks to our deepest drive — to lose ourselves completely in another and discover that dissolution is not death but homecoming."
+  },
+  {
+    title: "A Sunday on La Grande Jatte",
+    artist: "Georges Seurat",
+    year: "1884–1886",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/1280px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg",
+    psyche: "Seurat's pointillism forces the brain to complete the image, making the viewer a co-creator. But the figures are eerily frozen — isolated despite their proximity. It produces a quiet existential dread: the recognition of aloneness within the crowd that defines modern urban life."
+  },
+  {
+    title: "Nighthawks",
+    artist: "Edward Hopper",
+    year: "1942",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Edward_Hopper_Nighthawks_1942.jpg/1280px-Edward_Hopper_Nighthawks_1942.jpg",
+    psyche: "We stand outside looking in, yet the figures inside are equally unreachable to each other. Hopper distills the specific ache of modern loneliness: the glass between self and world, the warmth that never quite reaches you. It has made millions feel profoundly seen in their most private isolation."
+  },
+  {
+    title: "The Scream",
+    artist: "Edvard Munch",
+    year: "1893",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg/800px-Edvard_Munch%2C_1893%2C_The_Scream%2C_oil%2C_tempera_and_pastel_on_cardboard%2C_91_x_73_cm%2C_National_Gallery_of_Norway.jpg",
+    psyche: "Munch externalizes an inner state so precisely that viewers feel it in their bodies before they recognize it in their minds. The undulating lines are not a sky — they are anxiety made visible. It became the universal icon of panic because it shows what the unraveling psyche looks like from the inside."
+  },
+  {
+    title: "Las Meninas",
+    artist: "Diego Velázquez",
+    year: "1656",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Las_Meninas_01.jpg/800px-Las_Meninas_01.jpg",
+    psyche: "Velázquez traps the viewer in a hall of gazes. The infanta looks at you, Velázquez looks at you, the mirror reflects the king — yet nothing resolves. It collapses the categories of observer and observed, leaving the psyche unmoored in a vertiginous loop of self-awareness that foreshadowed modern consciousness by three centuries."
+  },
+  {
+    title: "The Night Watch",
+    artist: "Rembrandt van Rijn",
+    year: "1642",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Rembrandt_van_Rijn_-_De_Nachtwacht_-_Google_Art_Project.jpg/1280px-Rembrandt_van_Rijn_-_De_Nachtwacht_-_Google_Art_Project.jpg",
+    psyche: "Rembrandt's light feels physically warm — it falls on the viewer as much as the figures, pulling us into the procession. The painting activates a primordial response to drums and armed men moving with purpose: a deep, ancestral sense of collective belonging that few modern experiences can equal."
+  },
+  {
+    title: "The Garden of Earthly Delights",
+    artist: "Hieronymus Bosch",
+    year: "c. 1490–1510",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/The_Garden_of_earthly_delights.jpg/1280px-The_Garden_of_earthly_delights.jpg",
+    psyche: "Bosch mapped the unconscious five centuries before Freud named it. Viewers experience waves of recognition — these strange creatures and erotic torments feel deeply familiar, like half-remembered dreams. It reveals how thin the membrane is between civilization and the churning, irrational depths beneath it."
+  },
+  {
+    title: "Self-Portrait with Thorn Necklace",
+    artist: "Frida Kahlo",
+    year: "1940",
+    img: "https://upload.wikimedia.org/wikipedia/en/1/1e/Frida_Kahlo_%28self_portrait%29.jpg",
+    psyche: "Kahlo makes suffering beautiful and beauty unbearable. Her unflinching gaze refuses pity while demanding witness. Viewers experience traumatic empathy — a crack in their own emotional armor that allows genuine contact with another person's pain, and through it, with their own long-defended wounds."
+  },
+  {
+    title: "Wanderer above the Sea of Fog",
+    artist: "Caspar David Friedrich",
+    year: "1818",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg/800px-Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg",
+    psyche: "We inhabit the wanderer's body — his back becomes ours. Friedrich invented the sublime as psychological experience: standing at the edge of the comprehensible, feeling simultaneously annihilated and exalted by what exceeds understanding. The fog below is not landscape; it is the unconscious itself."
+  },
+  {
+    title: "Liberty Leading the People",
+    artist: "Eugène Delacroix",
+    year: "1830",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg/1280px-Eug%C3%A8ne_Delacroix_-_La_libert%C3%A9_guidant_le_peuple.jpg",
+    psyche: "Delacroix ignites the revolutionary archetype buried in every psyche. The diagonal surge, the smoke, the bared breast of Liberty — they bypass ideology and speak directly to the body's capacity for collective ecstasy. Viewers report a visceral desire to rise and stand for something larger than themselves."
+  },
+  {
+    title: "The Third of May 1808",
+    artist: "Francisco Goya",
+    year: "1814",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_in_Google_Earth.jpg/1280px-El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_in_Google_Earth.jpg",
+    psyche: "The white-shirted man's outstretched arms mirror crucifixion, inscribing every act of state violence into that archetype. Goya forces complicity — the rifles point at him and at us. Viewers are made to occupy both victim and executioner, and the moral weight of that dual position cannot be set down."
+  },
+  {
+    title: "Impression, Sunrise",
+    artist: "Claude Monet",
+    year: "1872",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg",
+    psyche: "This small canvas taught the eye to see differently — to value the fleeting impression over the finished fact. That is a radical psychological move: it gives permission to trust inner experience as much as outer reality. Viewers feel a sudden tenderness toward their own imperfect, dissolving perceptions."
+  },
+  {
+    title: "The Hay Wain",
+    artist: "John Constable",
+    year: "1821",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Constable_The_Hay_Wain.jpg/1280px-Constable_The_Hay_Wain.jpg",
+    psyche: "Constable discovered that we carry a longing for a green world we may never have known. The painting triggers biophilia — the deep evolutionary bond between humans and living landscapes. Viewers experience a homecoming to a place that is less a memory than a genetic inheritance encoded in the nervous system."
+  },
+  {
+    title: "The Arnolfini Portrait",
+    artist: "Jan van Eyck",
+    year: "1434",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Van_Eyck_-_Arnolfini_Portrait.jpg/800px-Van_Eyck_-_Arnolfini_Portrait.jpg",
+    psyche: "Van Eyck's hyper-real detail overwhelms the senses with presence. The convex mirror shows what we cannot see; every object trembles with symbolic weight. The painting creates the illusion not of visual fidelity but of metaphysical witness — the feeling of having truly been there."
+  },
+  {
+    title: "A Bar at the Folies-Bergère",
+    artist: "Édouard Manet",
+    year: "1882",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Edouard_Manet_-_A_Bar_at_the_Folies-Berg%C3%A8re.jpg/1280px-Edouard_Manet_-_A_Bar_at_the_Folies-Berg%C3%A8re.jpg",
+    psyche: "Manet's deliberately impossible mirror produces a disorientation the psyche cannot resolve. The barmaid's expression — neither welcoming nor hostile — mirrors modern consciousness itself: the person present to serve who is somewhere else entirely. This is the first painting of alienation, painted before the word existed."
+  },
+  {
+    title: "The Fighting Temeraire",
+    artist: "J.M.W. Turner",
+    year: "1839",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Turner%2C_J._M._W._-_The_Fighting_T%C3%A9m%C3%A9raire_tugged_to_her_Last_Berth_to_be_broken_up_-_Google_Art_Project.jpg/1280px-Turner%2C_J._M._W._-_The_Fighting_T%C3%A9m%C3%A9raire_tugged_to_her_Last_Berth_to_be_broken_up_-_Google_Art_Project.jpg",
+    psyche: "Turner's dying warship dragged into the sunset by a belching steam tug is the most devastating image of mortality in Western painting. It produces grief that transcends its subject — grief for beauty itself, for all majestic things time reduces to scrap. People weep before it without knowing why."
+  },
+  {
+    title: "Café Terrace at Night",
+    artist: "Vincent van Gogh",
+    year: "1888",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Van_Gogh_-_Terrasse_des_Caf%C3%A9s_an_der_Place_du_Forum_in_Arles%2C_Abends.jpg/800px-Van_Gogh_-_Terrasse_des_Caf%C3%A9s_an_der_Place_du_Forum_in_Arles%2C_Abends.jpg",
+    psyche: "Van Gogh made gaslight feel like starlight. The warmth flooding from the café into the cold dark street articulates a hunger for belonging that language barely reaches. It produces a nostalgia for evenings you may never have had — the ache of being always outside, looking at the lit window."
+  },
+  {
+    title: "The Last Supper",
+    artist: "Leonardo da Vinci",
+    year: "1495–1498",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/%C3%9Altima_Cena_-_Da_Vinci_5.jpg/1280px-%C3%9Altima_Cena_-_Da_Vinci_5.jpg",
+    psyche: "Leonardo froze the precise millisecond when intimacy became betrayal. The twelve disciples are twelve archetypes of human reaction to devastating news — denial, grief, rage, disbelief. Viewers scan the faces for their own response and feel implicated in the ancient, perpetually repeated drama of faithlessness."
+  },
+  {
+    title: "Sunflowers",
+    artist: "Vincent van Gogh",
+    year: "1888",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Vincent_van_Gogh_-_Sunflowers_%281888%2C_National_Gallery_London%29.jpg/800px-Vincent_van_Gogh_-_Sunflowers_%281888%2C_National_Gallery_London%29.jpg",
+    psyche: "Van Gogh painted these for a friend he hoped would come. The brushstrokes are so alive they seem to move, leaning toward the light like living things. Viewers experience an almost painful tenderness: the overwhelming desire of a man to fill the world with beauty before the darkness took him."
+  },
+  {
+    title: "The Sistine Madonna",
+    artist: "Raphael",
+    year: "1512",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Raphael_-_Sistine_Madonna.jpg/800px-Raphael_-_Sistine_Madonna.jpg",
+    psyche: "Mary's gaze is not beatific — it is frightened. She knows what the child she holds will become. Raphael shows love as full knowledge of sacrifice. The two famous cherubs below, bored and dreamy, ground the vision in the mundane. Viewers are moved by a love that is both infinite and heartbreakingly mortal."
+  },
+  {
+    title: "American Gothic",
+    artist: "Grant Wood",
+    year: "1930",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Grant_DeVolson_Wood_-_American_Gothic.jpg/800px-Grant_DeVolson_Wood_-_American_Gothic.jpg",
+    psyche: "Wood's couple confront the viewer with aggressive plainness. They do not perform — they endure. The painting triggers admiration for stoicism mixed with the claustrophobia of a world with no room for softness. It is the portrait of a self that has survived everything except its own opening to joy."
+  },
+  {
+    title: "Ophelia",
+    artist: "John Everett Millais",
+    year: "1851–1852",
+    img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Millais_Ophelia.jpg/1280px-Millais_Ophelia.jpg",
+    psyche: "Millais painted death as indistinguishable from beauty. Ophelia floats in full bloom, the water alive with flowers, her expression serene. The painting does something profoundly disturbing: it makes viewers notice, then resist, their own attraction to dissolution — the ancient death drive dressed in the most beautiful clothes."
+  }
+];
 
-        <section class="control-section actions">
-          <button class="btn btn-primary" id="generateBtn">Generate</button>
-          <button class="btn btn-secondary" id="randomBtn">Randomize</button>
-          <button class="btn btn-ghost" id="downloadBtn" disabled>Download</button>
-        </section>
-
-        <div class="seed-row">
-          <label for="seedInput">Seed</label>
-          <input type="text" id="seedInput" placeholder="random" />
-          <button class="btn btn-xs" id="copySeedBtn" title="Copy seed">⎘</button>
-        </div>
-      </aside>
-    </main>
-  </div>
-
-  <script src="art.js"></script>
+const gallery = document.getElementById('gallery');
+paintings.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'painting-card';
+  card.innerHTML = `
+    <img src="${p.img}" alt="${p.title}" loading="lazy">
+    <div class="painting-info">
+      <div class="number">${String(i + 1).padStart(2, '0')}</div>
+      <div class="title">${p.title}</div>
+      <div class="artist-year">${p.artist}, ${p.year}</div>
+    </div>
+    <div class="painting-overlay">
+      <div class="overlay-number">${String(i + 1).padStart(2, '0')}</div>
+      <div class="overlay-title">${p.title}</div>
+      <div class="overlay-artist">${p.artist} &middot; ${p.year}</div>
+      <div class="description">${p.psyche}</div>
+    </div>
+  `;
+  gallery.appendChild(card);
+});
+</script>
 </body>
 </html>
