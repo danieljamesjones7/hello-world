@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Art Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Art Generator</h1>
+      <p class="subtitle">Create generative artwork in seconds</p>
+    </header>
+
+    <main class="main">
+      <div class="canvas-container">
+        <canvas id="artCanvas" width="800" height="600"></canvas>
+        <div class="canvas-overlay" id="canvasOverlay">
+          <span>Click "Generate" to create art</span>
+        </div>
+      </div>
+
+      <aside class="controls">
+        <section class="control-section">
+          <h2>Style</h2>
+          <div class="style-grid" id="styleGrid">
+            <button class="style-btn active" data-style="geometric">
+              <span class="style-icon">◈</span>
+              <span>Geometric</span>
+            </button>
+            <button class="style-btn" data-style="particles">
+              <span class="style-icon">✦</span>
+              <span>Particles</span>
+            </button>
+            <button class="style-btn" data-style="waves">
+              <span class="style-icon">∿</span>
+              <span>Waves</span>
+            </button>
+            <button class="style-btn" data-style="fractal">
+              <span class="style-icon">❋</span>
+              <span>Fractal</span>
+            </button>
+            <button class="style-btn" data-style="noise">
+              <span class="style-icon">▦</span>
+              <span>Noise Field</span>
+            </button>
+            <button class="style-btn" data-style="splatter">
+              <span class="style-icon">✿</span>
+              <span>Splatter</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <h2>Palette</h2>
+          <div class="palette-grid" id="paletteGrid">
+            <button class="palette-btn active" data-palette="cosmic" title="Cosmic">
+              <span class="swatch" style="background: linear-gradient(135deg, #0d0d2b, #6a0dad, #ff6ec7, #ffd700)"></span>
+              <span>Cosmic</span>
+            </button>
+            <button class="palette-btn" data-palette="ocean" title="Ocean">
+              <span class="swatch" style="background: linear-gradient(135deg, #001f3f, #0074d9, #7fdbff, #01ff70)"></span>
+              <span>Ocean</span>
+            </button>
+            <button class="palette-btn" data-palette="fire" title="Fire">
+              <span class="swatch" style="background: linear-gradient(135deg, #1a0000, #ff4500, #ff8c00, #ffd700)"></span>
+              <span>Fire</span>
+            </button>
+            <button class="palette-btn" data-palette="forest" title="Forest">
+              <span class="swatch" style="background: linear-gradient(135deg, #0a1628, #2d6a4f, #52b788, #d8f3dc)"></span>
+              <span>Forest</span>
+            </button>
+            <button class="palette-btn" data-palette="monochrome" title="Mono">
+              <span class="swatch" style="background: linear-gradient(135deg, #000, #444, #999, #fff)"></span>
+              <span>Mono</span>
+            </button>
+            <button class="palette-btn" data-palette="neon" title="Neon">
+              <span class="swatch" style="background: linear-gradient(135deg, #0a0a0a, #ff00ff, #00ffff, #ff0099)"></span>
+              <span>Neon</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <h2>Parameters</h2>
+          <div class="param-row">
+            <label for="densitySlider">Density</label>
+            <input type="range" id="densitySlider" min="1" max="10" value="5" />
+            <span class="param-value" id="densityValue">5</span>
+          </div>
+          <div class="param-row">
+            <label for="complexitySlider">Complexity</label>
+            <input type="range" id="complexitySlider" min="1" max="10" value="5" />
+            <span class="param-value" id="complexityValue">5</span>
+          </div>
+          <div class="param-row">
+            <label for="speedSlider">Animation</label>
+            <input type="range" id="speedSlider" min="0" max="10" value="3" />
+            <span class="param-value" id="speedValue">3</span>
+          </div>
+          <div class="param-row checkbox-row">
+            <label for="symmetryCheck">Symmetry</label>
+            <input type="checkbox" id="symmetryCheck" />
+          </div>
+        </section>
+
+        <section class="control-section actions">
+          <button class="btn btn-primary" id="generateBtn">Generate</button>
+          <button class="btn btn-secondary" id="randomBtn">Randomize</button>
+          <button class="btn btn-ghost" id="downloadBtn" disabled>Download</button>
+        </section>
+
+        <div class="seed-row">
+          <label for="seedInput">Seed</label>
+          <input type="text" id="seedInput" placeholder="random" />
+          <button class="btn btn-xs" id="copySeedBtn" title="Copy seed">⎘</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="art.js"></script>
+</body>
+</html>
